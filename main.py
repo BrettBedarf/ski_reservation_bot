@@ -16,7 +16,8 @@ def main():
     driver = webdriver.Chrome(ChromeDriverManager().install())
     driver.get("https://www.epicpass.com/plan-your-trip/lift-access/reservations.aspx")
 
-    # TODO Sometimes any page load will give system cannot process your request error. Need to check for error screen on ever action
+    # TODO Sometimes any page load will give system cannot process your request error.
+    #  Need to check for error screen on ever action
     # Enter credentials and sign in if form is present
     try:
         if driver.find_element_by_id('accountSignIn'):
@@ -27,8 +28,6 @@ def main():
 
             input_user.send_keys(epic_config.email)
             input_password.send_keys(epic_config.password)
-
-            # driver.find_element_by_css_selector('#onetrust-close-btn-container > button').click()
             # close dmca notice
             WebDriverWait(driver, 10).until(
                 EC.element_to_be_clickable(
