@@ -24,11 +24,18 @@ def main():
             form_sign_in = driver.find_element_by_id('returningCustomerForm_3')
             input_user = form_sign_in.find_element_by_name('UserName')
             input_password = form_sign_in.find_element_by_name('Password')
-            button_sign_in = form_sign_in.find_element_by_css_selector('.btn.accountLogin__cta')
 
             input_user.send_keys(epic_config.email)
             input_password.send_keys(epic_config.password)
-            button_sign_in.click()
+
+            #driver.find_element_by_css_selector('#onetrust-close-btn-container > button').click()
+            # close dmca notice
+            WebDriverWait(driver, 10).until(
+                EC.element_to_be_clickable(
+                    (By.CSS_SELECTOR, '#onetrust-close-btn-container > button'))).click()
+            WebDriverWait(driver, 10).until(
+                EC.element_to_be_clickable(
+                    (By.XPATH, "//form[@id='returningCustomerForm_3']//button[@class='btn primaryCTA primaryCTA--full accountLogin__cta']"))).click()
 
     # NoSuchElementException thrown if sign in form not present
     except Exceptions.NoSuchElementException:
