@@ -1,0 +1,58 @@
+1609891084949	geckodriver	INFO	Listening on 127.0.0.1:56755
+1609891087984	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Brett\\AppData\\Local\\Temp\\rust_mozprofilezBkLOn"
+Can't find symbol 'eglSwapBuffersWithDamageEXT'.
+Can't find symbol 'eglSetDamageRegionKHR'.
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1609891092534	Marionette	INFO	Listening on port 56767
+1609891092841	Marionette	WARN	TLS certificate errors will be ignored for this session
+1609891093515	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+1609891338651	geckodriver	INFO	Listening on 127.0.0.1:57226
+1609891341707	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Brett\\AppData\\Local\\Temp\\rust_mozprofileuz6R2y"
+Can't find symbol 'eglSwapBuffersWithDamageEXT'.
+Can't find symbol 'eglSetDamageRegionKHR'.
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1609891345166	Marionette	INFO	Listening on port 57237
+1609891345410	Marionette	WARN	TLS certificate errors will be ignored for this session
+1609891346003	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+1609891461977	geckodriver	INFO	Listening on 127.0.0.1:57573
+1609891465057	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Brett\\AppData\\Local\\Temp\\rust_mozprofileBlxivu"
+Can't find symbol 'eglSwapBuffersWithDamageEXT'.
+Can't find symbol 'eglSetDamageRegionKHR'.
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1609891468683	Marionette	INFO	Listening on port 57583
+1609891468779	Marionette	WARN	TLS certificate errors will be ignored for this session
+1609891469319	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+1609891562651	geckodriver	INFO	Listening on 127.0.0.1:57896
+1609891565684	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Brett\\AppData\\Local\\Temp\\rust_mozprofilebp8n1Z"
+Can't find symbol 'eglSwapBuffersWithDamageEXT'.
+Can't find symbol 'eglSetDamageRegionKHR'.
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1609891569299	Marionette	INFO	Listening on port 57922
+1609891569403	Marionette	WARN	TLS certificate errors will be ignored for this session
+1609891569972	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+JavaScript error: resource://devtools/client/fronts/inspector.js, line 180: TypeError: right-hand side of 'in' should be an object, got undefined
+JavaScript error: resource://devtools/client/fronts/inspector.js, line 180: TypeError: right-hand side of 'in' should be an object, got undefined
+1609891651426	geckodriver	INFO	Listening on 127.0.0.1:58280
+1609891654469	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Brett\\AppData\\Local\\Temp\\rust_mozprofiled0uAhp"
+Can't find symbol 'eglSwapBuffersWithDamageEXT'.
+Can't find symbol 'eglSetDamageRegionKHR'.
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1609891658073	Marionette	INFO	Listening on port 58289
+1609891658221	Marionette	WARN	TLS certificate errors will be ignored for this session
+1609891658751	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+1609892042443	geckodriver	INFO	Listening on 127.0.0.1:58839
+1609892045464	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Brett\\AppData\\Local\\Temp\\rust_mozprofilePDRmNC"
+Can't find symbol 'eglSwapBuffersWithDamageEXT'.
+Can't find symbol 'eglSetDamageRegionKHR'.
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1609892048993	Marionette	INFO	Listening on port 58848
+1609892049190	Marionette	WARN	TLS certificate errors will be ignored for this session
+1609892049680	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+1609892126225	geckodriver	INFO	Listening on 127.0.0.1:59130
+1609892129262	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Brett\\AppData\\Local\\Temp\\rust_mozprofileZ8br6a"
+Can't find symbol 'eglSwapBuffersWithDamageEXT'.
+Can't find symbol 'eglSetDamageRegionKHR'.
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1609892132715	Marionette	INFO	Listening on port 59142
+1609892132991	Marionette	WARN	TLS certificate errors will be ignored for this session
+1609892133543	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
