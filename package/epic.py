@@ -1,5 +1,4 @@
 import sys
-from warnings import resetwarnings
 
 from selenium import webdriver
 import selenium.common.exceptions as Exceptions
@@ -10,11 +9,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
-<<<<<<< HEAD
-
-from colored import fg, bg, attr, stylize
-=======
->>>>>>> 79e373e273ef1fa1d4a8d193707ecb7c5415c1eb
 
 import config.epic_config as config
 
@@ -34,13 +28,17 @@ class EpicReservation:
 
         # default to chrome driver but allow firefox
         if driver == "firefox":
-            self._driver = webdriver.Firefox(executable_path=GeckoDriverManager().install())
+            self._driver = webdriver.Firefox(
+                executable_path=GeckoDriverManager().install()
+            )
         else:
             self._driver = webdriver.Chrome(ChromeDriverManager().install())
 
         # initialize web driver
 
-        self._driver.get("https://www.epicpass.com/plan-your-trip/lift-access/reservations.aspx")
+        self._driver.get(
+            "https://www.epicpass.com/plan-your-trip/lift-access/reservations.aspx"
+        )
 
     def make_reservation(
         self,
@@ -55,30 +53,18 @@ class EpicReservation:
             if self._select_day():
                 # day is not disabled
                 complete_res = self._complete_reservation()
+
                 reservation_success = complete_res["success"]
                 if reservation_success:
-                    success_style = fg("white") + bg("green_3b") + attr("bold")
                     print(
-                        success_style
-                        + "\nSUCCESS:"
-                        + attr("reset")
-                        + f" Reserved {self._resort} for {self._month}/{self._day}/{self._year} 🥳🎊🎉🎉"
+                        f"\nSUCCESS:Reserved {self._resort} for {self._month}/{self._day}/{self._year} 🥳🎊🎉🎉"
                     )
                     pass
                 else:
                     # TODO: Some errors should be fatal i.e. too many
                     #  prior reservations
-                    error_style = (
-                        fg("white") + bg("orange_1") + attr("bold")
-                        if complete_res["error"]["type"] == "warn"
-                        else fg("white") + bg("red")
-                    )
                     print(
-                        error_style
-                        + "\nERROR:"
-                        + attr("reset")
-                        + " completing reservation:"
-                        + complete_res["error"]["msg"]
+                        f'\nERROR completing reservation:{complete_res["error"]["msg"]}'
                     )
         self._refresh_calendar()
         pass
@@ -90,7 +76,9 @@ class EpicReservation:
         try:
             if self._driver.find_element_by_id("accountSignIn"):
                 # there are multiple login forms, need to make sure selecting correct one
-                form_sign_in = self._driver.find_element_by_id("returningCustomerForm_3")
+                form_sign_in = self._driver.find_element_by_id(
+                    "returningCustomerForm_3"
+                )
                 input_user = form_sign_in.find_element_by_name("UserName")
                 input_password = form_sign_in.find_element_by_name("Password")
 
@@ -145,7 +133,6 @@ class EpicReservation:
         # make sure the intermediary resort is different
         if temp_resort.text.title() == self._resort.title():
             temp_resort = self._driver.find_element_by_css_selector(
-<<<<<<< HEAD
                 "#PassHolderReservationComponent_Resort_Selectio > option:nth-child(3)"
             )
         self._load_calendar(temp_resort.text)
@@ -159,8 +146,3 @@ class EpicReservation:
         error_msg = "No reservation for you 😭"
         error_type = "warn"
         return {"success": True, "error": {"type": error_type, "msg": error_msg}}
-=======
-                "#PassHolderReservationComponent_Resort_Selection:nth-child(3)"
-            )
-        self._load_calendar(temp_resort.text)
->>>>>>> 79e373e273ef1fa1d4a8d193707ecb7c5415c1eb
