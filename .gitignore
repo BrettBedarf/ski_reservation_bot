@@ -146,3 +146,5 @@ dmypy.json
 cython_debug/
 
 
+workspace.code-workspace
+/bash.exe.stackdump

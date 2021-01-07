@@ -1,4 +1,5 @@
 import sys
+from warnings import resetwarnings
 
 from selenium import webdriver
 import selenium.common.exceptions as Exceptions
@@ -10,11 +11,12 @@ from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
 
+from colored import fg, bg, attr, stylize
+
 import config.epic_config as config
 
 
 class EpicReservation:
-    """Contains logic for reserving at an epic pass resort"""
 
     # TODO Sometimes any page load will give system cannot process your request error.
     #  Need to check for error screen on every action
@@ -37,14 +39,46 @@ class EpicReservation:
 
         self._driver.get("https://www.epicpass.com/plan-your-trip/lift-access/reservations.aspx")
 
-        # reservation logic
+    def make_reservation(
+        self,
+    ):
+        """ reservation logic """
+
         self._sign_in()
 
         reservation_success = False
         while not reservation_success:
             self._load_calendar()
-            self._refresh_calendar()
-            pass
+            if self._select_day():
+                # day is not disabled
+                complete_res = self._complete_reservation()
+                reservation_success = complete_res["success"]
+                if reservation_success:
+                    success_style = fg("white") + bg("green_3b") + attr("bold")
+                    print(
+                        success_style
+                        + "\nSUCCESS:"
+                        + attr("reset")
+                        + f" Reserved {self._resort} for {self._month}/{self._day}/{self._year} 🥳🎊🎉🎉"
+                    )
+                    pass
+                else:
+                    # TODO: Some errors should be fatal i.e. too many
+                    #  prior reservations
+                    error_style = (
+                        fg("white") + bg("orange_1") + attr("bold")
+                        if complete_res["error"]["type"] == "warn"
+                        else fg("white") + bg("red")
+                    )
+                    print(
+                        error_style
+                        + "\nERROR:"
+                        + attr("reset")
+                        + " completing reservation:"
+                        + complete_res["error"]["msg"]
+                    )
+        self._refresh_calendar()
+        pass
 
         input("continue")
 
@@ -111,3 +145,13 @@ class EpicReservation:
                 "#PassHolderReservationComponent_Resort_Selectio > option:nth-child(3)"
             )
         self._load_calendar(temp_resort.text)
+
+    def _select_day(self):
+        #
+        # if day is disabled, then cannot reserve and need to refresh
+        return True
+
+    def _complete_reservation(self):
+        error_msg = "No reservation for you 😭"
+        error_type = "warn"
+        return {"success": True, "error": {"type": error_type, "msg": error_msg}}

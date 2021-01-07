@@ -6,7 +6,8 @@ def main():
 
     # *** EPIC *** #
 
-    EpicReservation()
+    epic_res = EpicReservation()
+    epic_res.make_reservation()
 
     input("Any key to exit...")
 
