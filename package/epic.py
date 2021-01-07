@@ -10,8 +10,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
+<<<<<<< HEAD
 
 from colored import fg, bg, attr, stylize
+=======
+>>>>>>> 79e373e273ef1fa1d4a8d193707ecb7c5415c1eb
 
 import config.epic_config as config
 
@@ -142,6 +145,7 @@ class EpicReservation:
         # make sure the intermediary resort is different
         if temp_resort.text.title() == self._resort.title():
             temp_resort = self._driver.find_element_by_css_selector(
+<<<<<<< HEAD
                 "#PassHolderReservationComponent_Resort_Selectio > option:nth-child(3)"
             )
         self._load_calendar(temp_resort.text)
@@ -155,3 +159,8 @@ class EpicReservation:
         error_msg = "No reservation for you 😭"
         error_type = "warn"
         return {"success": True, "error": {"type": error_type, "msg": error_msg}}
+=======
+                "#PassHolderReservationComponent_Resort_Selection:nth-child(3)"
+            )
+        self._load_calendar(temp_resort.text)
+>>>>>>> 79e373e273ef1fa1d4a8d193707ecb7c5415c1eb
