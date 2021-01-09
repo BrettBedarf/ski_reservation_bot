@@ -26,24 +26,20 @@ class EpicReservation:
         self._email = config.email
         self._password = config.password
 
-        # default to chrome driver but allow firefox
-        if driver == "firefox":
-            self._driver = webdriver.Firefox(
-                executable_path=GeckoDriverManager().install()
-            )
-        else:
-            self._driver = webdriver.Chrome(ChromeDriverManager().install())
-
         # initialize web driver
 
-        self._driver.get(
-            "https://www.epicpass.com/plan-your-trip/lift-access/reservations.aspx"
-        )
+        # default to chrome driver but allow firefox
+        if driver == "firefox":
+            self._driver = webdriver.Firefox(executable_path=GeckoDriverManager().install())
+        else:
+            self._driver = webdriver.Chrome(ChromeDriverManager().install())
 
     def make_reservation(
         self,
     ):
-        """ reservation logic """
+        """ Epic reservation logic """
+
+        self._driver.get("https://www.epicpass.com/plan-your-trip/lift-access/reservations.aspx")
 
         self._sign_in()
 
@@ -63,9 +59,7 @@ class EpicReservation:
                 else:
                     # TODO: Some errors should be fatal i.e. too many
                     #  prior reservations
-                    print(
-                        f'\nERROR completing reservation:{complete_res["error"]["msg"]}'
-                    )
+                    print(f'\nERROR completing reservation:{complete_res["error"]["msg"]}')
         self._refresh_calendar()
         pass
 
@@ -76,9 +70,7 @@ class EpicReservation:
         try:
             if self._driver.find_element_by_id("accountSignIn"):
                 # there are multiple login forms, need to make sure selecting correct one
-                form_sign_in = self._driver.find_element_by_id(
-                    "returningCustomerForm_3"
-                )
+                form_sign_in = self._driver.find_element_by_id("returningCustomerForm_3")
                 input_user = form_sign_in.find_element_by_name("UserName")
                 input_password = form_sign_in.find_element_by_name("Password")
 
