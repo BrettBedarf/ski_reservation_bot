@@ -6,7 +6,6 @@ name = "pypi"
 [packages]
 selenium = "*"
 webdriver-manager = "*"
-colored = "*"
 
 [dev-packages]
 

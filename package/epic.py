@@ -11,6 +11,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
 
 import config.epic_config as config
+from package.date_util import month_names
 
 
 class EpicReservation:
@@ -22,6 +23,7 @@ class EpicReservation:
         self._resort = config.resort
         self._year = config.year
         self._month = config.month
+        self._month_name = month_names[config.month - 1]
         self._day = config.day
         self._email = config.email
         self._password = config.password
@@ -34,6 +36,10 @@ class EpicReservation:
         else:
             self._driver = webdriver.Chrome(ChromeDriverManager().install())
 
+        # initialize web driver
+
+        self._driver.get("https://www.epicpass.com/plan-your-trip/lift-access/reservations.aspx")
+
     def make_reservation(
         self,
     ):
@@ -42,10 +48,10 @@ class EpicReservation:
         self._driver.get("https://www.epicpass.com/plan-your-trip/lift-access/reservations.aspx")
 
         self._sign_in()
+        self._load_calendar()
 
         reservation_success = False
         while not reservation_success:
-            self._load_calendar()
             if self._select_day():
                 # day is not disabled
                 complete_res = self._complete_reservation()
@@ -55,13 +61,13 @@ class EpicReservation:
                     print(
                         f"\nSUCCESS:Reserved {self._resort} for {self._month}/{self._day}/{self._year} 🥳🎊🎉🎉"
                     )
-                    pass
+                    break
                 else:
                     # TODO: Some errors should be fatal i.e. too many
                     #  prior reservations
                     print(f'\nERROR completing reservation:{complete_res["error"]["msg"]}')
-        self._refresh_calendar()
-        pass
+            # refresh page if either day is unavailable or non-fatal error completing form
+            self._refresh_calendar()
 
         input("continue")
 
@@ -128,13 +134,71 @@ class EpicReservation:
                 "#PassHolderReservationComponent_Resort_Selectio > option:nth-child(3)"
             )
         self._load_calendar(temp_resort.text)
+        self._load_calendar()
 
     def _select_day(self):
-        #
+        calendar = WebDriverWait(self._driver, 10).until(
+            EC.presence_of_element_located((By.CLASS_NAME, "passholder_reservations__calendar"))
+        )
+
+        # select month
+        while (
+            calendar.find_element_by_xpath(
+                '//*[@class="passholder_reservations__calendar_name c111__datettitle--v1"]'
+            ).text.lower()
+            != self._month_name.lower()
+        ):
+            # wrong month, click right arrow
+            next_month_btn = calendar.find_element_by_class_name(
+                "passholder_reservations__calendar__arrow--right"
+            )
+            # check and throw exception if month is not available
+            if next_month_btn.is_enabled():
+                next_month_btn.click()
+            else:
+                raise Exception(f"{self._month_name} is not available at {self._resort}!")
+
+            # wait for loading spinner to be visible and again for it to dissapear
+            try:
+                calendar_wait = WebDriverWait(calendar, 10)
+                spinner = calendar_wait.until(
+                    EC.presence_of_element_located(
+                        (By.XPATH, '//*[@class="inline_loading_spinner"]')
+                    )
+                )
+                calendar_wait.until(EC.staleness_of(spinner))
+            except:
+                # assume we didn't catch the spinner loading because data loaded
+                # too quickly
+                print(
+                    "Didn't see the spinner loading and unloading. Continuing execution anyways.."
+                )
+                pass
+            print("pause")
+
+        # get day element
+        cal_days = calendar.find_elements_by_class_name("passholder_reservations__calendar__day")
+
+        try:
+            day = next(
+                (day for day in cal_days if int(day.text) == self._day)
+            )  # using list comprehension to filter
+        except StopIteration:
+            raise Exception(
+                "Selected day not found in calendar!"
+            )  # day existing should have been validated beforehand
+
         # if day is disabled, then cannot reserve and need to refresh
-        return True
+        if day.is_enabled():
+            day.click()
+            return True
+        else:
+            return False
+
+        # TODO handle not yet available days
 
     def _complete_reservation(self):
+
         error_msg = "No reservation for you 😭"
         error_type = "warn"
         return {"success": True, "error": {"type": error_type, "msg": error_msg}}
