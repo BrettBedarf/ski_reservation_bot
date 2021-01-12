@@ -27,6 +27,7 @@ class EpicReservation:
         self._day = config.day
         self._email = config.email
         self._password = config.password
+        self._phone = config.phone
 
         # initialize web driver
 
@@ -54,9 +55,9 @@ class EpicReservation:
         while not reservation_success:
             if self._select_day():
                 # day is not disabled
-                complete_res = self._complete_reservation()
+                submit_response = self._submit_reservation()
 
-                reservation_success = complete_res["success"]
+                reservation_success = submit_response["success"]
                 if reservation_success:
                     print(
                         f"\nSUCCESS:Reserved {self._resort} for {self._month}/{self._day}/{self._year} 🥳🎊🎉🎉"
@@ -65,7 +66,7 @@ class EpicReservation:
                 else:
                     # TODO: Some errors should be fatal i.e. too many
                     #  prior reservations
-                    print(f'\nERROR completing reservation:{complete_res["error"]["msg"]}')
+                    print(f'\nERROR completing reservation:{submit_response["error"]["msg"]}')
             # refresh page if either day is unavailable or non-fatal error completing form
             self._refresh_calendar()
 
@@ -197,8 +198,67 @@ class EpicReservation:
 
         # TODO handle not yet available days
 
-    def _complete_reservation(self):
+    def _submit_reservation(self):
+        """ Logic to fill and submit reservation form. Returns success or error message. """
 
-        error_msg = "No reservation for you 😭"
-        error_type = "warn"
-        return {"success": True, "error": {"type": error_type, "msg": error_msg}}
+        wait = WebDriverWait(self._driver, 5)
+
+        assign_passholders_modal = wait.until(
+            EC.presence_of_element_located(
+                (By.CSS_SELECTOR, ".passholder_reservations__assign_passholder_modal")
+            )
+        )
+        assign_passholders_button = assign_passholders_modal.find_element_by_css_selector(
+            ".primaryCTA"
+        )
+        # Some accounts may have multiple pass holders. Check all by default for now.
+        # Account owners can manually remove any passholders they don't want included.
+        checkboxes = assign_passholders_modal.find_elements_by_css_selector(
+            'input[type="checkbox"]'
+        )
+        for checkbox in checkboxes:
+            # Actual checkbox is hidden in browser and will not display as checked.
+            # Passholders are still selected correctly even if visual box is not checked.
+            checkbox.click()
+        assign_passholders_button.click()
+        # TODO check for already reserved that day error happens in the modal
+
+        # fill form
+        form = wait.until(
+            EC.presence_of_element_located((By.CLASS_NAME, "passholder_reservations__completion"))
+        )
+        phone_field = form.find_element_by_id("reservations-phone")
+        email_field = form.find_element_by_id("reservations-email")
+        txt_opt_in_box = form.find_element_by_id("contact-opt-in")
+        tos_box = form.find_element_by_id("terms-accepted")
+        complete_res_btn = form.find_element_by_class_name("primaryCTA")
+
+        phone_field.send_keys(self._phone)
+        # Email should already be pre-filled with account holder's.
+        # Double check to be sure and replace if necessary
+        if email_field.get_attribute("value") != self._email:
+            email_field.clear()
+            email_field.send_keys(self._email)
+        # input box checks will probably not visibly show in browser but input will count
+        txt_opt_in_box.click()
+        tos_box.click()
+        complete_res_btn.click()
+
+        success = False
+        error_msg = ''
+        error_type = None
+
+        # check for success
+        try:
+            # TODO not sure if this will still display on failure or not
+            wait.until(EC.presence_of_element_located((By.CLASS_NAME,"reservation_confirmation")))
+            success = True
+            
+        except:
+            # TODO if no confirmation, get error message
+            error_msg = "error confirming"
+            # fatal error type would be something that retrying cannot fix
+            # i.e bad phone number 
+            error_type = "warn"
+
+        return {"success": success, "error": {"type": error_type, "msg": error_msg}}
