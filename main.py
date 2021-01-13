@@ -1,4 +1,4 @@
-from package.epic import EpicReservation
+from package.Epic import EpicReservation
 
 
 def main():

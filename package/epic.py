@@ -11,66 +11,20 @@ from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
 
 import config.epic_config as config
-from package.date_util import month_names
+from package.Reservation import Reservation
 
 
-class EpicReservation:
+class EpicReservation(Reservation):
 
     # TODO Sometimes any page load will give system cannot process your request error.
     #  Need to check for error screen on every action
 
     def __init__(self, driver=None):
-        self._resort = config.resort
-        self._year = config.year
-        self._month = config.month
-        self._month_name = month_names[config.month - 1]
-        self._day = config.day
-        self._email = config.email
-        self._password = config.password
-        self._phone = config.phone
+        # inherit from Reservation parent class
+        super().__init__(config=config, driver=driver)
 
-        # initialize web driver
-
-        # default to chrome driver but allow firefox
-        if driver == "firefox":
-            self._driver = webdriver.Firefox(executable_path=GeckoDriverManager().install())
-        else:
-            self._driver = webdriver.Chrome(ChromeDriverManager().install())
-
-        # initialize web driver
-
+        # Open target page with driver
         self._driver.get("https://www.epicpass.com/plan-your-trip/lift-access/reservations.aspx")
-
-    def make_reservation(
-        self,
-    ):
-        """ Epic reservation logic """
-
-        self._driver.get("https://www.epicpass.com/plan-your-trip/lift-access/reservations.aspx")
-
-        self._sign_in()
-        self._load_calendar()
-
-        reservation_success = False
-        while not reservation_success:
-            if self._select_day():
-                # day is not disabled
-                submit_response = self._submit_reservation()
-
-                reservation_success = submit_response["success"]
-                if reservation_success:
-                    print(
-                        f"\nSUCCESS:Reserved {self._resort} for {self._month}/{self._day}/{self._year} 🥳🎊🎉🎉"
-                    )
-                    break
-                else:
-                    # TODO: Some errors should be fatal i.e. too many
-                    #  prior reservations
-                    print(f'\nERROR completing reservation:{submit_response["error"]["msg"]}')
-            # refresh page if either day is unavailable or non-fatal error completing form
-            self._refresh_calendar()
-
-        input("continue")
 
     def _sign_in(self):
         # Enter credentials and sign in if form is present
@@ -245,20 +199,20 @@ class EpicReservation:
         complete_res_btn.click()
 
         success = False
-        error_msg = ''
+        error_msg = ""
         error_type = None
 
         # check for success
         try:
             # TODO not sure if this will still display on failure or not
-            wait.until(EC.presence_of_element_located((By.CLASS_NAME,"reservation_confirmation")))
+            wait.until(EC.presence_of_element_located((By.CLASS_NAME, "reservation_confirmation")))
             success = True
-            
+
         except:
             # TODO if no confirmation, get error message
             error_msg = "error confirming"
             # fatal error type would be something that retrying cannot fix
-            # i.e bad phone number 
+            # i.e bad phone number
             error_type = "warn"
 
         return {"success": success, "error": {"type": error_type, "msg": error_msg}}
