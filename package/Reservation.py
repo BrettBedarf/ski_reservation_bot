@@ -6,15 +6,15 @@ from package.date_util import month_names
 
 
 class Reservation:
-    def __init__(self, config, driver=None):
-        self._resort = config.resort
-        self._year = config.year
-        self._month = config.month
-        self._month_name = month_names[config.month - 1]
-        self._day = config.day
-        self._email = config.email
-        self._password = config.password
-        self._phone = config.phone
+    def __init__(self, input, driver=None):
+        self._resort = input.resort
+        self._year = input.year
+        self._month = input.month
+        self._month_name = month_names[input.month - 1]
+        self._day = input.day
+        self._email = input.email
+        self._password = input.password
+        self._phone = input.phone
 
         # initialize web driver
         #   default to chrome driver but allow firefox
@@ -23,7 +23,7 @@ class Reservation:
         else:
             self._driver = webdriver.Chrome(ChromeDriverManager().install())
 
-    def make_reservation(
+    def process(
         self,
     ):
         """ Base algorithm which uses child class methods to implement"""

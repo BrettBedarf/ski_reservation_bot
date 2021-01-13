@@ -1,6 +1,5 @@
 import sys
 
-from selenium import webdriver
 import selenium.common.exceptions as Exceptions
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
@@ -10,7 +9,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
 
-import config.epic_config as config
 from package.Reservation import Reservation
 
 
@@ -19,9 +17,9 @@ class EpicReservation(Reservation):
     # TODO Sometimes any page load will give system cannot process your request error.
     #  Need to check for error screen on every action
 
-    def __init__(self, driver=None):
+    def __init__(self, input, driver=None):
         # inherit from Reservation parent class
-        super().__init__(config=config, driver=driver)
+        super().__init__(input, driver=None)
 
         # Open target page with driver
         self._driver.get("https://www.epicpass.com/plan-your-trip/lift-access/reservations.aspx")

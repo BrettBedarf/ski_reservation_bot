@@ -1,13 +1,12 @@
-from package.Epic import EpicReservation
+from package.ReservationFactory import ReservationFactory
+import config.reservation_input as input
 
 
 def main():
-    # TODO: refactor routing logic to another namespace allowing for multiple reservation systems
 
-    # *** EPIC *** #
-
-    epic_res = EpicReservation()
-    epic_res.make_reservation()
+    res_factory = ReservationFactory()
+    res = res_factory.make_provider(input)
+    res.process()
 
     input("Any key to exit...")
 
