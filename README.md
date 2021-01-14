@@ -11,7 +11,7 @@ Install environment from project root with `pipenv install`
 
 # Setup
 
-Make a copy of /config/epic_config_TEMPLATE.py and rename to epic_config.py in the same folder.
+Make a copy of /config/reservation_input_TEMPLATE.py and rename to epic_config.py in the same folder.
 
 Enter local variables
 
