@@ -1,8 +1,15 @@
 # USER
 
-/config/epic_config.py
+*/reservation_input.py
 .idea/
 .vscode/
+*.tmp
+workspace.code-workspace
+/bash.exe.stackdump
+/reservation_bot.code-workspace
+/scratch.py
+/.htmlhintrc
+/geckodriver.log
 
 # Created by .ignore support plugin (hsz.mobi)
 ### Python template
@@ -146,8 +153,3 @@ dmypy.json
 cython_debug/
 
 
-workspace.code-workspace
-/bash.exe.stackdump
-/reservation_bot.code-workspace
-/scratch.py
-/.htmlhintrc
