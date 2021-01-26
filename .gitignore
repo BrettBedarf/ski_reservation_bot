@@ -150,3 +150,4 @@ workspace.code-workspace
 /bash.exe.stackdump
 /reservation_bot.code-workspace
 /scratch.py
+/.htmlhintrc
