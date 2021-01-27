@@ -8,6 +8,7 @@ selenium = "*"
 webdriver-manager = "*"
 flask = "*"
 wtforms = "*"
+flask-wtf = "*"
 
 [dev-packages]
 

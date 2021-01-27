@@ -1,10 +1,24 @@
+import datetime
+
+from flask_wtf import FlaskForm
 from wtforms import Form, validators, StringField, PasswordField, DateField
 from wtforms.fields.html5 import EmailField
 from .forms_attribute_select import AttribSelectField
+
 from package.providers import providers
 
 
-class ReservationForm(Form):
+def validate_login(form, field):
+    # Placeholder to test login to provider
+    return None
+
+
+def validate_date(form, field):
+    if field.data < datetime.date.today():
+        raise validators.ValidationError("The date cannot be in the past!")
+
+
+class ReservationForm(FlaskForm):
     #  Options format tuple (value,label,{attributes})
     resort_options = [
         (resort["resort"], resort["resort"], {"data-provider": resort["provider"]})
@@ -13,6 +27,14 @@ class ReservationForm(Form):
     resort = AttribSelectField(
         "Resort", resort_options, validators=[validators.InputRequired("No resort selected!")]
     )
-    date = DateField("Reservation Date")
-    email = EmailField("Provider Email")
-    password = PasswordField("Provider Password")
+    date = DateField(
+        "Reservation Date",
+        validators=[validators.InputRequired("No date selected!"), validate_date],
+    )
+    email = EmailField(
+        "Provider Email", validators=[validators.InputRequired("No email provided!")]
+    )
+    password = PasswordField(
+        "Provider Password",
+        validators=[validators.InputRequired("No password provided!"), validate_login],
+    )
