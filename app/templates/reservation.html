@@ -4,13 +4,16 @@
 
 <form action="/" method="POST">
     {{form.hidden_tag()}}
-    {{form.resort.label}} {{form.resort(class='resort')}}
+    {{form.resort.label(class='form-label')}} {{form.resort(class='resort form-control')}}
+    {{form.date.label(class='form-label')}}{{form.date(class='form-control',placeholder="MM/DD/YYY")}}
     <div class="input-group date" data-provide="datepicker">
-        {{form.date.label}}{{form.date(class='form-control')}}
+
         <div class="input-group-addon">
             <span class="glyphicon glyphicon-th"></span>
         </div>
     </div>
+    {{form.email.label(class='form-label')}} {{form.email(class='form-control')}}
+    {{form.password.label(class='form-label')}} {{form.password(class='form-control')}}
 
 </form>
 
