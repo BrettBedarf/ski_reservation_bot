@@ -9,7 +9,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
 
-from package.Reservation import Reservation
+from package.reservation import Reservation
 
 
 class EpicReservation(Reservation):

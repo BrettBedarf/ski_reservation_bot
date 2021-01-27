@@ -1,5 +1,5 @@
 from package.providers import providers
-from package.Epic import EpicReservation
+from package.epic import EpicReservation
 
 # Factory creates concrete provider-specific reservation objects
 class ReservationFactory:

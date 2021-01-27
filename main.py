@@ -1,4 +1,4 @@
-from package.ReservationFactory import ReservationFactory
+from package.reservation_factory import ReservationFactory
 import config.reservation_input as input
 
 
