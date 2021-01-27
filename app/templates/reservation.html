@@ -1,5 +1,17 @@
 {% extends 'base.html'%}
 
-{% block content %}
+{% block form %}
 
-{% endblock content %}
+<form action="/" method="POST">
+    {{form.hidden_tag()}}
+    {{form.resort.label}} {{form.resort(class='resort')}}
+    <div class="input-group date" data-provide="datepicker">
+        {{form.date.label}}{{form.date(class='form-control')}}
+        <div class="input-group-addon">
+            <span class="glyphicon glyphicon-th"></span>
+        </div>
+    </div>
+
+</form>
+
+{% endblock form %}
