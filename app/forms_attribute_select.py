@@ -1,5 +1,5 @@
-from wtforms import Select, SelectField
-from wtforms.widgets.core import HTMLString, html_params
+from wtforms import SelectField
+from wtforms.widgets import Select, HTMLString, html_params
 
 # Overrides for WTForms that allow adding custom attributes to option elements
 

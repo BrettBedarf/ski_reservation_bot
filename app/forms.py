@@ -1,7 +1,7 @@
 import datetime
 
 from flask_wtf import FlaskForm
-from wtforms import Form, validators, StringField, PasswordField, DateField
+from wtforms import validators, StringField, PasswordField, DateField
 from wtforms.fields.html5 import EmailField
 from .forms_attribute_select import AttribSelectField
 
@@ -25,7 +25,9 @@ class ReservationForm(FlaskForm):
         for resort in providers
     ]
     resort = AttribSelectField(
-        "Resort", resort_options, validators=[validators.InputRequired("No resort selected!")]
+        "Resort",
+        choices=resort_options,
+        validators=[validators.InputRequired("No resort selected!")],
     )
     date = DateField(
         "Reservation Date",
