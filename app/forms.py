@@ -8,13 +8,8 @@ from .forms_attribute_select import AttribSelectField
 from package.providers import providers
 
 
-def validate_login(form, field):
-    # Placeholder to test login to provider
-    return None
-
-
 def validate_date(form, field):
-    if field.data < datetime.date.today():
+    if field.data and field.data < datetime.date.today():
         raise validators.ValidationError("The date cannot be in the past!")
 
 
@@ -31,6 +26,7 @@ class ReservationForm(FlaskForm):
     )
     date = DateField(
         "Reservation Date",
+        format="%m/%d/%Y",
         validators=[validators.InputRequired("No date selected!"), validate_date],
     )
     email = EmailField(
@@ -38,5 +34,5 @@ class ReservationForm(FlaskForm):
     )
     password = PasswordField(
         "Provider Password",
-        validators=[validators.InputRequired("No password provided!"), validate_login],
+        validators=[validators.InputRequired("No password provided!")],
     )
