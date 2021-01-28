@@ -1,7 +1,7 @@
 import datetime
 
 from flask_wtf import FlaskForm
-from wtforms import validators, StringField, PasswordField, DateField
+from wtforms import validators, PasswordField, DateField, StringField
 from wtforms.fields.html5 import EmailField
 from .forms_attribute_select import AttribSelectField
 
@@ -35,4 +35,8 @@ class ReservationForm(FlaskForm):
     password = PasswordField(
         "Provider Password",
         validators=[validators.InputRequired("No password provided!")],
+    )
+    # TODO validate phone is needed for provider
+    phone = StringField(
+        "Phone", validators=[validators.Length(9, 10, "Phone number must be 9 or 10 digits!")]
     )

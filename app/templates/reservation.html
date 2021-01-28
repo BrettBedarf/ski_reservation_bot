@@ -32,8 +32,14 @@
         <p style="color: red;">[{{ error }}]</p>
         {% endfor %}</div>
     <div class="mb-3">
-        <button type="submit" class='btn btn-primary'>Submit</button>
-    </div>
+        {{form.phone.label(class='form-label')}} {{form.phone(class='form-control')}}
+        {% for error in form.phone.errors %}
+        <p style="color: red;">[{{ error }}]</p>
+        {% endfor %}</div>
+    <div class="mb-3">
+        <div class="mb-3">
+            <button type="submit" class='btn btn-primary'>Submit</button>
+        </div>
 </form>
 
 {% endblock form %}
