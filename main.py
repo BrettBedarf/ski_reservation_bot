@@ -5,7 +5,7 @@ import config.reservation_input as input
 def main():
 
     res_factory = ReservationFactory()
-    res = res_factory.make_provider(input)
+    res = res_factory.make_reservation(input)
     res.process()
 
     input("Any key to exit...")

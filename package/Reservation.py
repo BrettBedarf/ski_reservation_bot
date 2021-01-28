@@ -1,3 +1,5 @@
+from datetime import date
+
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
@@ -6,15 +8,16 @@ from package.date_util import month_names
 
 
 class Reservation:
-    def __init__(self, input, driver=None):
-        self._resort = input.resort
-        self._year = input.year
-        self._month = input.month
-        self._month_name = month_names[input.month - 1]
-        self._day = input.day
-        self._email = input.email
-        self._password = input.password
-        self._phone = input.phone
+    def __init__(self, input_data, driver=None):
+        self._resort = input_data["resort"]
+        self._date = input_data["date"]
+        self._year = self._date.year
+        self._month = self._date.month
+        self._month_name = month_names[self._month - 1]
+        self._day = self._date.day
+        self._email = input_data["email"]
+        self._password = input_data["password"]
+        self._phone = input_data["phone"] or "9999999999"
 
         # initialize web driver
         #   default to chrome driver but allow firefox
